@@ -16,6 +16,13 @@ const characters = [
 let firstCard = ''
 let secondCard = ''
 
+const checkEndGame = () => {
+    const disabledCards = document.querySelectorAll('.disabled-card')
+    if (disabledCards.length === 20) {
+        alert('Parabéns, você conseguiu!')
+    }
+}
+
 const createElements = (tags, classes) => {
     const element = document.createElement(tags)
     element.className = classes
@@ -32,6 +39,8 @@ const checkCards = () => {
         
         firstCard = ''
         secondCard = ''
+
+        checkEndGame()
     } else {
         setTimeout(() => {
             firstCard.classList.remove('reveal-card')
