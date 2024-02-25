@@ -23,7 +23,8 @@
     font-size: 1.5em;
 }
 
-.login__input {
+.login__input1,
+.login__input2 {
     border: 2px solid #333;
     border-radius: 8px;
     color: #333;
