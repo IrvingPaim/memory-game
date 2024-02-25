@@ -1,6 +1,9 @@
 const grid = document.querySelector('.grid')
 
-const spanPlayer = document.querySelector('.player')
+const spanPlayer1 = document.querySelector('.player1')
+const spanPlayer2 = document.querySelector('.player2')
+const scorePlayer1 = document.querySelector('.score__player1') // Corrigido o seletor
+const scorePlayer2 = document.querySelector('.score__player2') // Corrigido o seletor
 const timer = document.querySelector('.timer')
 
 const characters = [
@@ -18,12 +21,23 @@ const characters = [
 
 let firstCard = ''
 let secondCard = ''
+let currentPlayer = 1 // Adicionado para controlar o jogador atual
+let scorePlayerOne = 0
+let scorePlayerTwo = 0
 
 const checkEndGame = () => {
     const disabledCards = document.querySelectorAll('.disabled-card')
     if (disabledCards.length === 20) {
         clearInterval(this.loop)
-        alert(`Parabéns, ${spanPlayer.innerHTML}! seu tempo foi de: ${timer.innerHTML}`)
+        let winner = '';
+        if (scorePlayerOne > scorePlayerTwo) {
+            winner = localStorage.getItem('player1')
+        } else if (scorePlayerTwo > scorePlayerOne) {
+            winner = localStorage.getItem('player2')
+        } else {
+            winner = 'Empate'
+        }
+        alert(`Parabéns, ${winner}! Seu tempo foi de: ${timer.innerHTML}`);
     }
 }
 
@@ -40,6 +54,14 @@ const checkCards = () => {
     if (firstCharacter === secondCharacter) {
         firstCard.firstChild.classList.add('disabled-card')
         secondCard.firstChild.classList.add('disabled-card')
+
+        if (currentPlayer === 1) {
+            scorePlayerOne += 1
+            scorePlayer1.innerHTML = scorePlayerOne // Atualiza a pontuação do jogador 1
+        } else if (currentPlayer === 2) {
+            scorePlayerTwo += 1
+            scorePlayer2.innerHTML = scorePlayerTwo // Atualiza a pontuação do jogador 2
+        }
         
         firstCard = ''
         secondCard = ''
@@ -52,8 +74,10 @@ const checkCards = () => {
 
             firstCard = ''
             secondCard = ''
-        }, 500)
 
+            // Alternar entre os jogadores
+            currentPlayer = currentPlayer === 1 ? 2 : 1
+        }, 500)
     }
 }
 
@@ -71,7 +95,6 @@ const revealCard = ({ target }) => {
 
         checkCards()
     }
- 
 }
 
 const createCard = (character) => {
@@ -110,12 +133,15 @@ const startTimer = () => {
 }
 
 window.onload = () => {
-    const playerName = localStorage.getItem('jogador')
-
-    spanPlayer.innerHTML = playerName
+    
+    const player1 = localStorage.getItem('player1')
+    const player2 = localStorage.getItem('player2')
+    
+    spanPlayer1.innerHTML = `${player1}: `
+    spanPlayer2.innerHTML = `${player2}: `
+    scorePlayer1.innerHTML = `${scorePlayerOne}`
+    scorePlayer2.innerHTML = `${scorePlayerTwo}`
+    
     startTimer()
     loadGame()
 }
-
-
-

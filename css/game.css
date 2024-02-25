@@ -70,3 +70,11 @@ header {
     filter: saturate(0);
     opacity: 0.5;
 }
+
+.players {
+    display: flex;
+}
+
+.player1 {
+    margin-bottom: 25px;
+}
